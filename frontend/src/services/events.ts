@@ -10,7 +10,7 @@ export type EventData = {
   name: string
   description: string
   type: number
-  date: Date
+  date: string
 }
 
 const events: EventData[] = [
@@ -18,13 +18,13 @@ const events: EventData[] = [
     name: "Finished School",
     description: "Finished some school",
     type: EventTypes.EDUCATION,
-    date: new Date("05/25/2021"),
+    date: "05/25/2021",
   },
   {
     name: "Started working",
     description: "Started work at some company",
     type: EventTypes.WORK,
-    date: new Date("08/30/2021"),
+    date: "08/30/2021",
   },
 ]
 
