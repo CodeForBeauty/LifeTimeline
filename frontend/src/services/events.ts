@@ -26,6 +26,24 @@ const events: EventData[] = [
     type: EventTypes.WORK,
     date: "08/30/2021",
   },
+  {
+    name: "Started working",
+    description: "Started work at some company",
+    type: EventTypes.CHILDHOOD,
+    date: "08/30/2021",
+  },
+  {
+    name: "Started working",
+    description: "Started work at some company",
+    type: EventTypes.HOBBY,
+    date: "08/30/2021",
+  },
+  {
+    name: "Started working",
+    description: "Started work at some company",
+    type: EventTypes.FAMILY,
+    date: "08/30/2021",
+  },
 ]
 
 const getAll = async (): Promise<EventData[] | null> => {
