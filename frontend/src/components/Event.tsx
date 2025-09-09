@@ -31,7 +31,7 @@ const Event = ({ data, isLeft }: { data: EventData; isLeft: boolean }) => {
       }
     >
       <motion.div
-        className="border-2 rounded-2xl p-4 bg-white h-auto min-h-64 sm:min-h-80 w-40 sm:w-3xs text-2xl shadow-xl"
+        className="border-2 border-gray-300 rounded-2xl p-4 bg-white h-auto min-h-64 sm:min-h-80 w-40 sm:w-3xs text-2xl shadow-xl"
         initial={{ scale: 0, x: isLeft ? 200 : -200 }}
         whileInView={{ scale: 1, x: 0, transition: { duration: 0.3 } }}
         whileHover={{ scale: 1.1, x: isLeft ? 10 : -10 }}

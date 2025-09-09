@@ -29,7 +29,7 @@ const Main = () => {
       <div className="absolute bottom-0 top-0 w-3 bg-gray-100 shadow-xl shadow-blue-950"></div>
       <motion.button
         onClick={() => setIsForm(!isForm)}
-        className="absolute bottom-5 rounded-4xl bg-gray-50 hover:bg-gray-100 p-3 cursor-pointer"
+        className="absolute bottom-5 rounded-4xl bg-gray-50 hover:bg-gray-100 p-3 cursor-pointer z-50 shadow-2xs text-xl border-[1px]"
         initial={{scale: 1}}
         whileHover={{scale: 1.1}}
       >
