@@ -1,19 +1,9 @@
-import { useEffect } from "react"
-
-import { useAppSelector, useAppDispatch } from "../reducers/hooks"
-
-import { getEvents } from "../reducers/eventsReducer"
+import { useAppSelector } from "../reducers/hooks"
 
 import Event from "./Event"
 
 const EventList = () => {
-  const dispatch = useAppDispatch()
-
   const events = useAppSelector((state) => state.events)
-
-  useEffect(() => {
-    dispatch(getEvents())
-  }, [dispatch])
 
   return (
     <div>

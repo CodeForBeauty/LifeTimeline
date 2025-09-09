@@ -3,9 +3,9 @@ import { type EventData, EventTypes } from "../services/events"
 import { motion } from "motion/react"
 
 const Event = ({ data, isLeft }: { data: EventData; isLeft: boolean }) => {
-  let image = "/public/work.svg"
+  let image = "/work.svg"
 
-  switch (data.type) {
+  switch (Number(data.type)) {
     case EventTypes.CHILDHOOD:
       image = "/childhood.svg"
       break
@@ -37,7 +37,6 @@ const Event = ({ data, isLeft }: { data: EventData; isLeft: boolean }) => {
         whileHover={{ scale: 1.1, x: isLeft ? 10 : -10 }}
       >
         <img src={image} alt="event type" width={80} />
-        <div>{data.type}</div>
         <h2 className="text-3xl font-medium">{data.name}</h2>
         <p className=" text-[1.2rem] font-medium">{data.date}</p>
         <p className="text-">{data.description}</p>

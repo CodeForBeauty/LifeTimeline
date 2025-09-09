@@ -51,7 +51,8 @@ const getAll = async (): Promise<EventData[] | null> => {
 }
 
 const addEvent = async (event: EventData): Promise<boolean> => {
-  events.push(event)
+  //events.push(event)
+  console.log(event)
 
   return true
 }
