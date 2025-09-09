@@ -1,6 +1,7 @@
 import InputField from "./InputField"
 
 import { useFormik } from "formik"
+import * as yup from "yup"
 
 import { type EventData, EventTypes } from "../services/events"
 
@@ -13,6 +14,12 @@ const initialValues: EventData = {
   date: new Date().toLocaleDateString("en-CA"),
 }
 
+const validationSchema = yup.object().shape({
+  name: yup.string().required("Event name is required"),
+  description: yup.string().optional(),
+  type: yup.number().required("Event type is required"),
+  date: yup.date().required("Event date is required"),
+})
 
 const eventTypes = [
   {
@@ -49,15 +56,19 @@ const CreateForm = ({
 }) => {
   const formik = useFormik({
     initialValues,
+    validationSchema,
     onSubmit,
   })
 
   return (
-    <motion.form 
-    className="flex flex-col z-10 bg-gradient-to-b from-blue-100 to-gray-200 p-8 rounded-xl border-[1px] border-blue-200"
-    initial={{scale: 0, y: -150}}
-    whileInView={{scale: 1, y: 0}}
+    <motion.form
+      className="flex flex-col z-10 bg-gradient-to-b from-blue-100 to-gray-200 p-8 rounded-xl border-[1px] border-blue-200"
+      initial={{ scale: 0, y: -150 }}
+      whileInView={{ scale: 1, y: 0 }}
     >
+      {formik.touched.name && formik.errors.name && (
+        <p className="text-red-800">{formik.errors.name}</p>
+      )}
       <InputField
         label="Event"
         value={formik.values.name}
