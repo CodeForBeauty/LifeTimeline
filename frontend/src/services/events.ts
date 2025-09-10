@@ -7,6 +7,7 @@ export const EventTypes = {
 }
 
 export type EventData = {
+  id: number
   name: string
   description: string
   type: number
@@ -15,30 +16,35 @@ export type EventData = {
 
 const events: EventData[] = [
   {
+    id: 0,
     name: "Finished School",
     description: "Finished some school",
     type: EventTypes.EDUCATION,
     date: "05/25/2021",
   },
   {
+    id: 1,
     name: "Started working",
     description: "Started work at some company",
     type: EventTypes.WORK,
     date: "08/30/2021",
   },
   {
+    id: 2,
     name: "Started working",
     description: "Started work at some company",
     type: EventTypes.CHILDHOOD,
     date: "08/30/2021",
   },
   {
+    id: 3,
     name: "Started working",
     description: "Started work at some company",
     type: EventTypes.HOBBY,
     date: "08/30/2021",
   },
   {
+    id: 4,
     name: "Started working",
     description: "Started work at some company",
     type: EventTypes.FAMILY,
@@ -52,9 +58,15 @@ const getAll = async (): Promise<EventData[] | null> => {
 
 const addEvent = async (event: EventData): Promise<boolean> => {
   //events.push(event)
-  console.log(event)
+  console.log("add", event)
 
   return true
 }
 
-export default { getAll, addEvent }
+const removeEvent = async (event: EventData): Promise<boolean> => {
+  console.log("remove", event)
+
+  return true
+}
+
+export default { getAll, addEvent, removeEvent }
