@@ -51,9 +51,9 @@ const Event = ({
 
         <button
           onClick={onRemove}
-          className="self-end mt-6 mr-2 p-1 text-xl cursor-pointer bg-gray-200 hover:bg-gray-300 rounded-md border-2 border-gray-400/50 shadow-md"
+          className="self-end mt-6 mr-2 p-2 text-xl cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-2xl border-2 border-gray-200/50 shadow-md"
         >
-          delete
+          <img src="/bin.svg" alt="delete" width={48} />
         </button>
       </motion.div>
 
