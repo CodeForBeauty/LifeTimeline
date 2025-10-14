@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Event } from './event.entity';
 
 @Module({
   imports: [
@@ -13,11 +14,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
-        entities: [],
+        entities: [Event],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
+    TypeOrmModule.forFeature([Event]),
   ],
 })
 export class DbModule {}

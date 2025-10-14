@@ -1,22 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { Event } from './event.interface';
 
-import { Client } from 'pg';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Event } from '../db/event.entity';
+import { CreateEventDto } from './createEvent.dto';
 
 @Injectable()
 export class EventsService {
-  private readonly events: Event[] = [];
-  private readonly pgClient: Client = new Client();
+  constructor(
+    @InjectRepository(Event)
+    private readonly eventRepository: Repository<Event>,
+  ) {}
 
-  constructor() {
-    void this.pgClient.connect();
+  async findAll(user: number): Promise<Event[]> {
+    return this.eventRepository.findBy({ user });
   }
 
-  findAll(user: number): Event[] {
-    return this.events.filter((event) => event.user === user);
+  async create(event: CreateEventDto): Promise<Event> {
+    const toSave = this.eventRepository.create(event);
+
+    return this.eventRepository.save(toSave);
   }
 
-  create(event: Event) {
-    this.events.push(event);
+  async remove(event: Event) {
+    return this.eventRepository.remove(event);
   }
 }
