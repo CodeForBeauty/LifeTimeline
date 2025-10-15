@@ -5,7 +5,7 @@ export class Event {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ foreignKeyConstraintName: 'User' })
   user: number;
 
   @Column()

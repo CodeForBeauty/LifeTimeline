@@ -7,7 +7,7 @@ import { CreateEventDto } from './createEvent.dto';
 export class EventsController {
   constructor(private eventsService: EventsService) {}
 
-  @Get()
+  @Get(':id')
   findAll(@Query('id') id: number): Promise<Event[]> {
     return this.eventsService.findAll(id);
   }

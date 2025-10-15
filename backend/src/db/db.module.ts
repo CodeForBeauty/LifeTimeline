@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Event } from './event.entity';
+import { User } from './user.entity';
 
 @Module({
   imports: [
@@ -9,17 +10,15 @@ import { Event } from './event.entity';
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
-        host: config.get('DB_HOST'),
-        port: config.get<number>('DB_PORT'),
-        username: config.get('DB_USERNAME'),
-        password: config.get('DB_PASSWORD'),
-        database: config.get('DB_NAME'),
-        entities: [Event],
-        synchronize: true,
+        host: config.get('db.host'),
+        port: config.get<number>('db.port'),
+        username: config.get('db.username'),
+        password: config.get('db.password'),
+        database: config.get('db.name'),
+        entities: [Event, User],
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([Event]),
   ],
 })
 export class DbModule {}
