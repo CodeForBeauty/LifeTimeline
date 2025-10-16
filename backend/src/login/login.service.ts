@@ -42,6 +42,7 @@ export class LoginService {
   // Returns token or null if incorrect
   async login(user: UserDto): Promise<string | null> {
     const secret = this.config.get<string>('app.secretKey');
+    user.password = await this.getHash(user.password);
 
     const found = await this.userRepository.findOneBy(user);
     if (found === null) {
