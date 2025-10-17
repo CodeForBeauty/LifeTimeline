@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/db/user.entity';
@@ -34,39 +34,45 @@ export class LoginService {
 
     const secret = this.config.get<string>('app.secretKey');
     if (secret !== undefined) {
-      return jwt.sign(user, secret);
+      return jwt.sign({ ...created }, secret);
     }
-    return '';
+    throw new UnauthorizedException();
   }
 
   // Returns token or null if incorrect
   async login(user: UserDto): Promise<string | null> {
     const secret = this.config.get<string>('app.secretKey');
-    user.password = await this.getHash(user.password);
 
-    const found = await this.userRepository.findOneBy(user);
-    if (found === null) {
-      return null;
+    const found = await this.userRepository.findOneBy({
+      username: user.username,
+    });
+    if (
+      found === null ||
+      !(await bcrypt.compare(user.password, found.password))
+    ) {
+      throw new UnauthorizedException();
     }
 
     if (secret !== undefined) {
-      return jwt.sign(user, secret);
+      return jwt.sign({ ...found }, secret);
     }
-    return '';
+    throw new UnauthorizedException();
   }
 
-  async checkToken(token: string): Promise<boolean> {
+  async checkToken(token: string): Promise<User | null> {
     const secret = this.config.get<string>('app.secretKey');
     if (secret !== undefined) {
       const decoded = jwt.verify(token, secret) as UserDto;
 
-      const found = await this.userRepository.findOneBy(decoded);
+      const found = await this.userRepository.findOneBy({
+        username: decoded.username,
+      });
 
-      if (found !== null) {
-        return true;
+      if (found !== null && found.password === decoded.password) {
+        return found;
       }
     }
 
-    return false;
+    return null;
   }
 }

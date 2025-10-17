@@ -3,13 +3,13 @@ import {
   Controller,
   Get,
   Post,
-  Query,
+  Delete,
   Headers,
   UnauthorizedException,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { Event } from '../db/event.entity';
-import { CreateEventDto } from './createEvent.dto';
+import { EventDto } from './event.dto';
 import { LoginService } from 'src/login/login.service';
 
 @Controller('api/events')
@@ -19,38 +19,42 @@ export class EventsController {
     private readonly loginService: LoginService,
   ) {}
 
-  @Get(':id')
+  @Get()
   async findAll(
-    @Query('id') id: number,
     @Headers('Authorization') authorization: string,
   ): Promise<Event[]> {
     const [type, token] = authorization.split(' ');
-    if (type === 'Bearer' && (await this.loginService.checkToken(token))) {
-      return this.eventsService.findAll(id);
+    const user = await this.loginService.checkToken(token);
+    if (type === 'Bearer' && user !== null) {
+      return this.eventsService.findAll(user.id);
     }
     throw new UnauthorizedException();
   }
 
   @Post()
   async create(
-    @Body() eventDto: CreateEventDto,
+    @Body() eventDto: EventDto,
     @Headers('Authorization') authorization: string,
   ) {
     const [type, token] = authorization.split(' ');
-    if (type === 'Bearer' && (await this.loginService.checkToken(token))) {
+    const user = await this.loginService.checkToken(token);
+    if (type === 'Bearer' && user !== null) {
+      eventDto.user = user.id;
       return this.eventsService.create(eventDto);
     }
     throw new UnauthorizedException();
   }
 
-  @Post('remove')
+  @Delete()
   async remove(
-    @Body() event: Event,
+    @Body() eventDto: EventDto,
     @Headers('Authorization') authorization: string,
   ) {
     const [type, token] = authorization.split(' ');
-    if (type === 'Bearer' && (await this.loginService.checkToken(token))) {
-      return this.eventsService.remove(event);
+    const user = await this.loginService.checkToken(token);
+    if (type === 'Bearer' && user !== null) {
+      eventDto.user = user.id;
+      return this.eventsService.remove(eventDto);
     }
     throw new UnauthorizedException();
   }
