@@ -13,7 +13,7 @@ const login = async (data: LoginData): Promise<string | null> => {
       return null
     }
     
-    return response.data.token
+    return response.data
   }
   catch {
     return null
@@ -29,7 +29,7 @@ const register = async (data: LoginData): Promise<string | null> => {
       return null
     }
     
-    return response.data.token
+    return response.data
   }
   catch {
     return null

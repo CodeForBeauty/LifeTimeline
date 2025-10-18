@@ -1,11 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit"
 
 import eventsReducer from "./reducers/eventsReducer"
+import tokenReducer from "./reducers/tokenReducer"
 
 const store = configureStore({
   reducer: {
-    events: eventsReducer
-  }
+    events: eventsReducer,
+    token: tokenReducer,
+  },
 })
 
 export default store

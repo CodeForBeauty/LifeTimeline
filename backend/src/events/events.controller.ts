@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   Post,
-  Delete,
   Headers,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -45,7 +44,7 @@ export class EventsController {
     throw new UnauthorizedException();
   }
 
-  @Delete()
+  @Post('delete')
   async remove(
     @Body() eventDto: EventDto,
     @Headers('Authorization') authorization: string,

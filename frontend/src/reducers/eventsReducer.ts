@@ -6,6 +6,8 @@ import {
 
 import { type EventData } from "../services/events"
 
+import { setToken } from "./tokenReducer"
+
 import events from "../services/events"
 
 const initialState: EventData[] = []
@@ -34,11 +36,11 @@ export const getEvents = () => {
   return async (dispatch: Dispatch) => {
     const data = await events.getAll()
 
-    if (data == null) {
+    if (data !== null) {
+      dispatch(setEvents(data))
       return
     }
-
-    dispatch(setEvents(data))
+    dispatch(setToken(""))
   }
 }
 
@@ -46,9 +48,11 @@ export const addEvent = (event: EventData) => {
   return async (dispatch: Dispatch) => {
     const success = await events.addEvent(event)
 
-    if (success) {
-      dispatch(pushEvent(event))
+    if (success !== null) {
+      dispatch(pushEvent(success))
+      return
     }
+    dispatch(setToken(""))
   }
 }
 
@@ -56,8 +60,10 @@ export const removeEvent = (event: EventData) => {
   return async (dispatch: Dispatch) => {
     const success = await events.removeEvent(event)
 
-    if (success) {
+    if (success !== null) {
       dispatch(delEvent(event))
+      return
     }
+    dispatch(setToken(""))
   }
 }

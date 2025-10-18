@@ -60,19 +60,23 @@ export class LoginService {
   }
 
   async checkToken(token: string): Promise<User | null> {
-    const secret = this.config.get<string>('app.secretKey');
-    if (secret !== undefined) {
-      const decoded = jwt.verify(token, secret) as UserDto;
+    try {
+      const secret = this.config.get<string>('app.secretKey');
+      if (secret !== undefined) {
+        const decoded = jwt.verify(token, secret) as UserDto;
 
-      const found = await this.userRepository.findOneBy({
-        username: decoded.username,
-      });
+        const found = await this.userRepository.findOneBy({
+          username: decoded.username,
+        });
 
-      if (found !== null && found.password === decoded.password) {
-        return found;
+        if (found !== null && found.password === decoded.password) {
+          return found;
+        }
       }
-    }
 
-    return null;
+      return null;
+    } catch {
+      throw new UnauthorizedException();
+    }
   }
 }

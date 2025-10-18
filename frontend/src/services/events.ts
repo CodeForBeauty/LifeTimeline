@@ -1,3 +1,5 @@
+import axios from "axios"
+
 export const EventTypes = {
   CHILDHOOD: 0,
   EDUCATION: 1,
@@ -14,59 +16,46 @@ export type EventData = {
   date: string
 }
 
-const events: EventData[] = [
-  {
-    id: 0,
-    name: "Finished School",
-    description: "Finished some school",
-    type: EventTypes.EDUCATION,
-    date: "05/25/2021",
-  },
-  {
-    id: 1,
-    name: "Started working",
-    description: "Started work at some company",
-    type: EventTypes.WORK,
-    date: "08/30/2021",
-  },
-  {
-    id: 2,
-    name: "Started working",
-    description: "Started work at some company",
-    type: EventTypes.CHILDHOOD,
-    date: "08/30/2021",
-  },
-  {
-    id: 3,
-    name: "Started working",
-    description: "Started work at some company",
-    type: EventTypes.HOBBY,
-    date: "08/30/2021",
-  },
-  {
-    id: 4,
-    name: "Started working",
-    description: "Started work at some company",
-    type: EventTypes.FAMILY,
-    date: "08/30/2021",
-  },
-]
-
 const getAll = async (): Promise<EventData[] | null> => {
-  return events
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    }
+    const response = await axios.get("api/events", config)
+
+    return response.data
+  } catch {
+    localStorage.removeItem("token")
+    return null
+  }
 }
 
-const addEvent = async (event: EventData): Promise<boolean> => {
-  //events.push(event)
-  console.log("add", event)
+const addEvent = async (event: EventData): Promise<EventData | null> => {
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    }
+    const response = await axios.post("api/events", event, config)
 
-  return true
+    return response.data
+  } catch {
+    localStorage.removeItem("token")
+    return null
+  }
 }
 
-const removeEvent = async (event: EventData): Promise<boolean> => {
-  console.log("remove", event)
+const removeEvent = async (event: EventData): Promise<EventData | null> => {
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    }
+    const response = await axios.post("api/events/delete", event, config)
 
-  return true
+    return response.data
+  } catch {
+    localStorage.removeItem("token")
+    return null
+  }
 }
 
 export default { getAll, addEvent, removeEvent }

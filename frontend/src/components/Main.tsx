@@ -7,8 +7,9 @@ import { useState, useEffect } from "react"
 import { type EventData } from "../services/events"
 import loginService, { type LoginData } from "../services/login"
 
-import { useAppDispatch } from "../reducers/hooks"
+import { useAppDispatch, useAppSelector } from "../reducers/hooks"
 import { addEvent, getEvents } from "../reducers/eventsReducer"
+import { setToken } from "../reducers/tokenReducer"
 
 import { motion } from "motion/react"
 
@@ -16,16 +17,10 @@ const Main = () => {
   const dispatch = useAppDispatch()
   const [isForm, setIsForm] = useState(false)
 
-  const [token, setToken] = useState("")
   const [isLogin, setIsLogin] = useState(true)
   const [loginError, setLoginError] = useState("")
 
-  useEffect(() => {
-    const loaded = localStorage.getItem("token")
-    if (loaded !== null) {
-      setToken(loaded)
-    }
-  }, [])
+  const token = useAppSelector((state) => state.token)
 
   const handleCreate = (data: EventData) => {
     dispatch(addEvent(data))
@@ -33,6 +28,11 @@ const Main = () => {
   }
 
   useEffect(() => {
+    const loaded = localStorage.getItem("token")
+    if (loaded !== null) {
+      dispatch(setToken(loaded))
+    }
+
     dispatch(getEvents())
   }, [dispatch])
 
@@ -40,7 +40,7 @@ const Main = () => {
     const res = await loginService.login(data)
 
     if (res !== null) {
-      setToken(res)
+      dispatch(setToken(res))
       localStorage.setItem("token", res)
     }
     else {
@@ -52,7 +52,7 @@ const Main = () => {
     const res = await loginService.register(data)
 
     if (res !== null) {
-      setToken(res)
+      dispatch(setToken(res))
       localStorage.setItem("token", res)
     }
     else {
