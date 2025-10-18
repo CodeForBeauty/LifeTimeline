@@ -8,6 +8,7 @@ import { type EventData, EventTypes } from "../services/events"
 import { motion } from "motion/react"
 
 const initialValues: EventData = {
+  id: 0,
   name: "",
   description: "",
   type: 0,
