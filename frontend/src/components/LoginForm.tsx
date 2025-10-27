@@ -48,6 +48,7 @@ const LoginForm = ({
         value={formik.values.username}
         onChange={formik.handleChange("username")}
         type="text"
+        id="usename"
       />
 
       {formik.touched.password && formik.errors.password && (
@@ -58,6 +59,7 @@ const LoginForm = ({
         value={formik.values.password}
         onChange={formik.handleChange("password")}
         type="password"
+        id="password"
       />
 
       {error && <p className="text-red-800">{error}</p>}

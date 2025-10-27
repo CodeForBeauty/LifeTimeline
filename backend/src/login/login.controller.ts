@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, Get } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { UserDto } from './user.dto';
 
@@ -16,5 +16,10 @@ export class LoginController {
   @Post('login')
   login(@Body() userdto: UserDto) {
     return this.loginService.login(userdto);
+  }
+
+  @Get('clear')
+  clear() {
+    return this.loginService.clear();
   }
 }

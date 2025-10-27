@@ -2,6 +2,7 @@ export default () => ({
   app: {
     port: process.env.APP_PORT,
     secretKey: process.env.SECRET_KEY,
+    envType: process.env.APP_ENV,
   },
   db: {
     username: process.env.DB_USERNAME,

@@ -11,6 +11,8 @@ import jwt from 'jsonwebtoken';
 @Injectable()
 export class LoginService {
   constructor(
+    @InjectRepository(Event)
+    private readonly eventRepository: Repository<Event>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly config: ConfigService,
@@ -77,6 +79,16 @@ export class LoginService {
       return null;
     } catch {
       throw new UnauthorizedException();
+    }
+  }
+
+  async clear(): Promise<boolean> {
+    if (this.config.get<string>('app.envType') == 'TEST') {
+      await this.userRepository.clear();
+      await this.eventRepository.clear();
+      return true;
+    } else {
+      return false;
     }
   }
 }

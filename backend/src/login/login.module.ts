@@ -5,9 +5,10 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { User } from 'src/db/user.entity';
+import { Event } from 'src/db/event.entity';
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forFeature([User])],
+  imports: [ConfigModule, TypeOrmModule.forFeature([User, Event])],
   controllers: [LoginController],
   providers: [LoginService],
   exports: [LoginService],
